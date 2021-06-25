@@ -1,0 +1,77 @@
+*************************************************************************************
+This is the source used to generate the data in the article:
+"Transcriptional mutagenesis prevents ribosomal DNA deterioration.
+ The role of duplications and deletions."
+by E.S. Colizzi & P. Hogeweg.
+
+The code comprises all the source files, the python scripts and this README. 
+It has been written by E.S. Colizzi, except for the files mersenne.h and mersenne.c 
+(which have their own licence).
+It is released under the GNU General Public License v3.0, which basically means 
+that you can use the code whichever way you want, but not make money out of it. 
+Also I deny any responsibility if it breaks your computer 
+(the software can be memory and storage intensive, and it takes typically a few weeks 
+to get anywhere in terms of results).
+
+Below you'll find some important information on how to compile and run the code, 
+and how to use the python scripts to generate the figures shown in the manuscript.
+
+*************************************************************************************
+--------------------
+---   THE CODE   ---
+--------------------
+
+The code is written in c and compiled with gcc. 
+It has been tested and works on several Linux Ubuntu distributions, 
+and I expect it to compile near effortlessly on most Linux operating systems.
+I have not tested it on Mac or Windows and most likely will not work on them.
+The code requires the gnu gsl libraries (developer version). 
+When you have them you can just go to the directory where your code is, and type: 
+
+make
+
+and an executable called pMicro is generated. 
+Executing it (by typing ./pMicro ) will start the simulation system. 
+
+The simulation generates A LOT of data (typically 50-100 GB per simulation), so be careful when you run it. 
+It creates three outputs: 
+parMicro.txt (a text file with parameters of one arbitrary individual in the population, updated every 10 time steps)
+varMicro.txt (a text file with variables of one arbitrary individual in the population, updated every 10 time steps)
+backupMicro (a directory with a dump of the part of the population that, every 10 time steps, still belongs to the ancestral lineage. 
+             Every 5000 time steps, data of the entire population is dumped, instead). 
+
+In the file parameters.c you can toggle all parameters, after which you have to recompile the code.
+
+*************************************************************************************
+------------------------------
+---   THE PYTHON SCRIPTS   ---
+------------------------------
+
+The python scripts are written in python 2.7. 
+
+the script histogenome_andancestry_TQRP.py can be run without or with options:
+if you run it without options (i.e. ./histogenome_andancestry_TQRP.py ) it will generate a new file called: 
+
+ancestors_genomes.txt
+
+which contains the ancestors' trace of the evolutionary simulation. 
+This file contains the kind of information used to produce plots in the article. 
+After you have this file, you can type 
+./histogenome_andancestry_TQRP.py -plot 
+
+and this will generate several time plots. 
+You can also generate blob plots like those you see in the article by typing: 
+./blobs_TQRP.py A/Path/To/ancestors_genomes.txt Another/Path/To/ancestors_genomes.txt etc...
+
+Finally, the file ./plot_simple_TQRP.py uses varMicro.txt and parMicro.txt to make a simple timeplot 
+of one arbitrary individual in the population (this useful for checking the everything is running fine
+but I did not use it for anything in the article).
+
+*************************************************************************************
+
+For any question about the code or if you find any bug, please let me know: 
+e.s.colizzi *at* math.leidenuniv.nl
+
+Have fun,
+Enrico Sandro Colizzi
+
